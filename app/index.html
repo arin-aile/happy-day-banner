@@ -25,7 +25,7 @@
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:15px;line-height:1.55;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased;
+body{word-break:keep-all;overflow-wrap:anywhere;background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:15px;line-height:1.55;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased;
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:22px 48px}
 button,input,textarea{font-family:inherit;letter-spacing:inherit}
 .app{max-width:1520px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
@@ -47,7 +47,7 @@ button,input,textarea{font-family:inherit;letter-spacing:inherit}
 @media (max-width:1240px){ .work{grid-template-columns:minmax(0,1fr) 420px} .style-box{grid-column:1 / -1;position:static!important} .style-box .styles{grid-template-columns:repeat(5,minmax(0,1fr))} }
 @media (max-width:1020px){ .work{grid-template-columns:minmax(0,1fr)} }
 /* style picker box */
-.style-box{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px 14px 14px;display:flex;flex-direction:column;gap:12px;position:sticky;top:calc(env(safe-area-inset-top, 0px) + 16px)}
+.style-box{padding:4px 0 0;display:flex;flex-direction:column;gap:12px;position:sticky;top:calc(env(safe-area-inset-top, 0px) + 16px)}
 .style-box h3{margin:0 2px;font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:.02em}
 
 /* board */
@@ -99,7 +99,7 @@ button,input,textarea{font-family:inherit;letter-spacing:inherit}
 .range-row output{font-family:var(--font-mono);font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
 input[type=range]{width:100%;accent-color:var(--ink)}
 .layout-actions{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.board-hint{margin:0;font-size:13px;color:var(--muted);text-align:center;max-width:46ch}
+.board-hint{margin:0;font-size:13px;color:var(--muted);text-align:center;max-width:48ch;text-wrap:balance}
 
 /* panel */
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;position:sticky;top:calc(env(safe-area-inset-top, 0px) + 16px);overflow:hidden}
@@ -132,13 +132,16 @@ button:focus-visible,.style-opt input:focus-visible + span,.seg input:focus-visi
 @media (max-width:520px){.style-box .styles{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .style-opt{position:relative;cursor:pointer}
 .style-opt input{position:absolute;opacity:0;pointer-events:none}
-.style-opt span{display:flex;flex-direction:column;gap:6px;border:1.5px solid var(--line);border-radius:12px;padding:5px 5px 8px;height:100%;transition:border-color .15s}
-.style-opt:hover span{border-color:var(--muted)}
+.style-opt span{display:flex;flex-direction:column;gap:7px;height:100%}
+.style-opt i{transition:box-shadow .15s,transform .15s}
+.style-opt:hover i{transform:translateY(-2px)}
+.style-opt b{color:var(--muted)}
 .style-opt i{display:block;aspect-ratio:3/4;border-radius:7px;position:relative;overflow:hidden;background:var(--soft)}
 .style-opt img{width:100%;height:100%;object-fit:cover;display:block}
 .style-opt b{font-size:12.5px;font-weight:700;line-height:1.25;padding:0 2px;text-align:center;letter-spacing:-0.02em;white-space:nowrap}
 .style-opt em{font-style:normal;font-size:11.5px;color:var(--muted);line-height:1.35;padding:0 3px}
-.style-opt input:checked + span{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.style-opt input:checked + span i{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.style-opt input:checked + span b{color:var(--ink)}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:3px}
 .seg label{display:block;cursor:pointer;position:relative}
 .seg input{position:absolute;opacity:0;pointer-events:none}
@@ -153,6 +156,7 @@ button:focus-visible,.style-opt input:focus-visible + span,.seg input:focus-visi
 .status{margin:0;font-size:13px;color:var(--muted);min-height:1.5em;line-height:1.5}
 .status.ok{color:var(--ok)} .status.bad{color:var(--warn)}
 .after{display:flex;gap:8px;flex-direction:column}
+.after-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ghost{font-size:14px;font-weight:600;background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 12px;cursor:pointer}
 .ghost:hover{border-color:var(--ink)}
 .hint{margin:0;font-size:12px;color:var(--muted)}
@@ -252,7 +256,7 @@ button:focus-visible,.style-opt input:focus-visible + span,.seg input:focus-visi
           <button type="submit" class="primary" id="gen">배너 생성<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
           <p class="status" id="status" role="status" aria-live="polite">사진을 올리면 누끼를 먼저 확인할 수 있어요.</p>
           <div class="after" id="after" hidden>
-            <button type="button" class="ghost" id="copy">이미지 복사</button>
+            <div class="after-btns"><button type="button" class="ghost" id="copy">이미지 복사</button><button type="button" class="ghost" id="download">이미지 다운로드</button></div>
             <p class="hint">배너를 우클릭(모바일은 길게 누르기)해서 저장할 수도 있어요. 스타일이나 문구를 바꾸면 바로 다시 그려집니다.</p>
           </div>
         </div>
@@ -728,10 +732,10 @@ function renderMag(ctx, P) {
     ctx.font = font(58, F.corm, 500, 'italic'); const ml = wrap(ctx, P.D.msg || 'The one who makes every day special.', 430, 5); ml.forEach((l, i) => text(ctx, l, W - 70, cy + 300 + i * 68, { align: 'right' }));
   }
   // script + date oval
-  ctx.save(); ctx.shadowColor = 'rgba(255,255,255,0.95)'; ctx.shadowBlur = 36; ctx.fillStyle = BLUE;
+  ctx.save();
   const ML = P.D.hl, PIN = "'Pinyon Script', serif";
-  if (ML.length > 1) { fit(ctx, ML[0], PIN, 400, W * 0.62, 500, 0, 120); text(ctx, ML[0], W * 0.34, H - 690, { align: 'center' }); }
-  fit(ctx, ML[ML.length - 1], PIN, 400, W * 0.84, 520, 0, 120); text(ctx, ML[ML.length - 1], W * 0.56, H - 260, { align: 'center' }); ctx.restore();
+  if (ML.length > 1) { const px = fit(ctx, ML[0], PIN, 400, W * 0.62, 500, 0, 120); outlined(ctx, ML[0], W * 0.34, H - 690, [{ w: px * 0.06, color: '#ffffff' }], BLUE, { align: 'center' }); }
+  { const t = ML[ML.length - 1], px = fit(ctx, t, PIN, 400, W * 0.84, 520, 0, 120); outlined(ctx, t, W * 0.56, H - 260, [{ w: px * 0.06, color: '#ffffff' }], BLUE, { align: 'center' }); } ctx.restore();
   ctx.save(); ctx.translate(W - 380, H - 1080); ctx.rotate(-0.08); ctx.beginPath(); ctx.ellipse(0, 0, 300, 110, 0, 0, 7); ctx.lineWidth = 5; ctx.strokeStyle = BLUE; ctx.stroke(); ctx.fillStyle = BLUE; ctx.font = font(96, F.corm, 500, 'italic'); ctx.textBaseline = 'middle'; text(ctx, `${P.D.YY}.${P.D.MM}.${P.D.DD}.`, 0, 6, { align: 'center' }); ctx.restore();
   sparkle(ctx, W * 0.6, H - 720, 40, BLUE);
   barcode(ctx, 60, H - 190, 360, 120, R);
@@ -1024,6 +1028,11 @@ $('headline').addEventListener('input', () => scheduleRedraw());
 $('name').addEventListener('input', () => { const el = $('name'); const v = el.value.replace(/[^A-Za-z .'-]/g, ''); if (v !== el.value) el.value = v; if (validName()) scheduleRedraw(); });
 $('date').addEventListener('change', scheduleRedraw);
 $('msg').addEventListener('input', () => { $('msgCount').textContent = $('msg').value.length; scheduleRedraw(); });
+$('download').addEventListener('click', () => {
+  if (!S.blobUrl) return; const D = readData(); const a = document.createElement('a');
+  a.href = S.blobUrl; a.download = `happyday_${D.name.replace(/[^A-Za-z0-9]+/g, '_')}_${D.style}.png`; document.body.appendChild(a); a.click(); a.remove();
+  status('다운로드를 시작했어요. 받아지지 않으면 배너를 우클릭(모바일은 길게 누르기)해서 저장해 주세요.', 'ok');
+});
 $('copy').addEventListener('click', async () => {
   try { if (!S.blob || !window.ClipboardItem) throw 0; await navigator.clipboard.write([new ClipboardItem({ 'image/png': S.blob })]); status('배너 이미지를 클립보드에 복사했어요.', 'ok'); }
   catch { status('이 화면에서는 이미지 복사가 막혀 있어요. 배너를 우클릭(모바일은 길게 누르기)해서 저장해 주세요.', 'bad'); }
