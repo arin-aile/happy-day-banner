@@ -1,0 +1,12 @@
+# Reference images collected from other people's work stay local only
+무대스타일/
+청량스타일/
+큐트스타일/
+힙스타일/
+매거진스타일/
+청순스타일/
+썸네일/
+*.webp
+.DS_Store
+.claude/settings.local.json
+app/_test/
