@@ -2,7 +2,8 @@
 
 인물 사진 한 장을 올리면 MediaPipe로 누끼를 따고, 고른 스타일로 A3 비율(2100×2970px) 생일 축하 배너를 그려 주는 웹앱입니다.
 
-- 라이브: https://claude.ai/artifact/Txyc7S1yGgNuaxvSV7dgGY
+- GitHub Pages: https://arin-aile.github.io/happy-day-banner/
+- 아티팩트: https://claude.ai/artifact/Txyc7S1yGgNuaxvSV7dgGY
 - 스타일 5종: 무대·청량 / 큐트·키치 / 힙·레트로 / 매거진·잡지 / 청순·청춘
 - 누끼: MediaPipe Image Segmenter(자동 인식), Interactive Segmenter(클릭 지정)
 - 얼굴 보호: MediaPipe Face Detector로 얼굴 위치를 찾아 장식이 얼굴을 가리지 않게 배치
