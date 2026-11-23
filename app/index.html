@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>Happy Day 배너 메이커</title>
+<title>Happy Day · 축하 포스터 만들기</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,13 +28,13 @@
 body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:15px;line-height:1.55;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased;
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:22px 48px}
 button,input,textarea{font-family:inherit;letter-spacing:inherit}
-.app{max-width:1360px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.app{max-width:1520px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
 
 /* header */
 .top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 28px}
 .brand{display:flex;align-items:baseline;gap:12px;margin:0;font-weight:400}
-.brand b{font-family:var(--font-display);font-weight:400;font-size:clamp(30px,4vw,38px);letter-spacing:.03em;line-height:1}
-.brand span{font-size:15px;font-weight:600;color:var(--muted)}
+.brand b{font-family:var(--font-display);font-weight:400;font-size:clamp(30px,4vw,38px);letter-spacing:-.035em;line-height:1}
+.brand span{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:-.04em}
 .steps{display:flex;gap:6px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
 .steps li{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 6px}
 .steps li i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--soft);font-size:12px;font-variant-numeric:tabular-nums}
@@ -43,11 +43,15 @@ button,input,textarea{font-family:inherit;letter-spacing:inherit}
 .steps li.done{color:var(--ok);border-color:transparent;background:var(--ok-soft)}
 .steps li.done i{background:var(--ok);color:#fff}
 
-.work{display:grid;grid-template-columns:minmax(0,1fr) 470px;gap:20px;align-items:start}
+.work{display:grid;grid-template-columns:224px minmax(0,1fr) 440px;gap:20px;align-items:start}
+@media (max-width:1240px){ .work{grid-template-columns:minmax(0,1fr) 420px} .style-box{grid-column:1 / -1;position:static!important} .style-box .styles{grid-template-columns:repeat(5,minmax(0,1fr))} }
 @media (max-width:1020px){ .work{grid-template-columns:minmax(0,1fr)} }
+/* style picker box */
+.style-box{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px 14px 14px;display:flex;flex-direction:column;gap:12px;position:sticky;top:calc(env(safe-area-inset-top, 0px) + 16px)}
+.style-box h3{margin:0 2px;font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:.02em}
 
 /* board */
-.board{min-width:0;background:var(--mat);background-image:radial-gradient(var(--mat-dot) 1.2px, transparent 1.4px);background-size:22px 22px;border-radius:16px;
+.board{min-width:0;overflow:clip;background:var(--mat);background-image:radial-gradient(var(--mat-dot) 1.2px, transparent 1.4px);background-size:22px 22px;border-radius:16px;
   padding:16px clamp(12px,3vw,28px) 18px;display:flex;flex-direction:column;align-items:center;gap:14px;border:1px solid var(--line)}
 .board-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;flex-wrap:wrap}
 .tabs{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;box-shadow:var(--shadow)}
@@ -56,8 +60,8 @@ button,input,textarea{font-family:inherit;letter-spacing:inherit}
 .tabs button:disabled{opacity:.38;cursor:not-allowed}
 .spec{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-variant-numeric:tabular-nums}
 .stage{position:relative;aspect-ratio:297/420;width:min(100%, calc((100vh - 230px) * 297 / 420));min-width:min(100%, 290px);max-width:100%;
-  background:#2a2d34;border-radius:3px;overflow:hidden;box-shadow:0 2px 4px rgba(10,14,24,.12), 0 24px 50px -24px rgba(10,14,24,.55)}
-.stage canvas,.stage img{position:absolute;inset:0;width:100%;height:100%;display:block}
+  background:#2a2d34;border-radius:3px;box-shadow:0 2px 4px rgba(10,14,24,.12), 0 24px 50px -24px rgba(10,14,24,.55)}
+.stage canvas,.stage img{position:absolute;inset:0;width:100%;height:100%;display:block;border-radius:3px}
 .stage.pick canvas{cursor:crosshair}
 .stage.dragover::after{content:"";position:absolute;inset:10px;border:3px dashed #fff;border-radius:8px;pointer-events:none}
 .drop{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(80%,300px);display:flex;flex-direction:column;align-items:center;gap:8px;
@@ -76,8 +80,18 @@ button,input,textarea{font-family:inherit;letter-spacing:inherit}
 .spin{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.28);border-top-color:#fff;animation:spin .9s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin{animation-duration:3s}}
-.hot{position:absolute;border:2px dashed rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(20,30,60,.45);border-radius:6px;pointer-events:none}
-.hot span{position:absolute;left:-2px;top:-24px;font-size:11px;font-weight:700;background:#121419;color:#fff;padding:2px 8px;border-radius:5px;white-space:nowrap}
+/* bounding box (Illustrator style) */
+.hot{position:absolute;left:0;top:0;border:1.5px solid #2f7bff;pointer-events:none;transform-origin:50% 50%;z-index:3}
+.hot.hover{border-style:dashed;border-color:rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(20,40,90,.5)}
+.hot.hover .hd,.hot.hover .rot,.hot.hover .rot-line{display:none}
+.hot span{position:absolute;left:-1.5px;bottom:calc(100% + 6px);font-size:11px;font-weight:700;background:#2f7bff;color:#fff;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.hot.hover span{background:#121419}
+.hd{position:absolute;width:11px;height:11px;margin:-6.5px 0 0 -6.5px;background:#fff;border:1.5px solid #2f7bff;pointer-events:auto;touch-action:none}
+.hd[data-h=nw]{left:0;top:0;cursor:nwse-resize}.hd[data-h=ne]{left:100%;top:0;cursor:nesw-resize}
+.hd[data-h=se]{left:100%;top:100%;cursor:nwse-resize}.hd[data-h=sw]{left:0;top:100%;cursor:nesw-resize}
+.rot-line{position:absolute;left:50%;top:100%;width:1.5px;height:26px;background:#2f7bff;margin-left:-.75px}
+.rot{position:absolute;left:50%;top:calc(100% + 26px);width:15px;height:15px;margin:-1px 0 0 -7.5px;border-radius:50%;background:#fff;border:1.5px solid #2f7bff;pointer-events:auto;cursor:grab;touch-action:none}
+.rot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#2f7bff}
 .stage.can-move{cursor:move}
 .stage.editable{touch-action:none}
 .stage.dragging{cursor:grabbing}
@@ -114,8 +128,8 @@ input[type=text]:focus,input[type=date]:focus,textarea:focus{background:var(--pa
 textarea{resize:vertical;min-height:62px;line-height:1.45}
 button:focus-visible,.style-opt input:focus-visible + span,.seg input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
 .err{font-size:12px;color:var(--warn);font-weight:600}
-.styles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
-@media (max-width:520px){.styles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.styles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.style-box .styles{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .style-opt{position:relative;cursor:pointer}
 .style-opt input{position:absolute;opacity:0;pointer-events:none}
 .style-opt span{display:flex;flex-direction:column;gap:6px;border:1.5px solid var(--line);border-radius:12px;padding:5px 5px 8px;height:100%;transition:border-color .15s}
@@ -147,7 +161,7 @@ button:focus-visible,.style-opt input:focus-visible + span,.seg input:focus-visi
 
 <div class="app">
   <header class="top">
-    <h1 class="brand"><b>Happy Day</b><span>생일 배너 메이커</span></h1>
+    <h1 class="brand"><b>Happy Day</b><span>축하 포스터 만들기</span></h1>
     <ol class="steps" id="steps" aria-label="진행 단계">
       <li class="current"><i>1</i>사진 올리기</li>
       <li><i>2</i>누끼 확인</li>
@@ -156,6 +170,16 @@ button:focus-visible,.style-opt input:focus-visible + span,.seg input:focus-visi
   </header>
 
   <main class="work">
+    <aside class="style-box" aria-labelledby="styleLegend">
+      <h3 id="styleLegend">스타일</h3>
+      <div class="styles" role="radiogroup" aria-labelledby="styleLegend">
+        <label class="style-opt"><input type="radio" name="style" id="st-stage" value="stage" checked><span><i><img data-thumb="thumbs/stage.jpg" alt=""></i><b>무대·청량</b></span></label>
+        <label class="style-opt"><input type="radio" name="style" id="st-cute" value="cute"><span><i><img data-thumb="thumbs/cute.jpg" alt=""></i><b>큐트·키치</b></span></label>
+        <label class="style-opt"><input type="radio" name="style" id="st-hip" value="hip"><span><i><img data-thumb="thumbs/hip.jpg" alt=""></i><b>힙·레트로</b></span></label>
+        <label class="style-opt"><input type="radio" name="style" id="st-mag" value="mag"><span><i><img data-thumb="thumbs/mag.jpg" alt=""></i><b>매거진·잡지</b></span></label>
+        <label class="style-opt"><input type="radio" name="style" id="st-pure" value="pure"><span><i><img data-thumb="thumbs/pure.jpg" alt=""></i><b>청순·청춘</b></span></label>
+      </div>
+    </aside>
     <section class="board" aria-label="A3 미리보기">
       <div class="board-bar">
         <div class="tabs" role="tablist" id="tabs">
@@ -174,7 +198,7 @@ button:focus-visible,.style-opt input:focus-visible + span,.seg input:focus-visi
           <span>끌어다 놓거나 눌러서 선택<br>JPG · PNG · WEBP</span>
         </button>
         <div class="marker" id="marker" hidden></div>
-        <div class="hot" id="hot" hidden><span id="hotLabel">인물</span></div>
+        <div class="hot" id="hot" hidden><span id="hotLabel">인물</span><i class="hd" data-h="nw"></i><i class="hd" data-h="ne"></i><i class="hd" data-h="se"></i><i class="hd" data-h="sw"></i><i class="rot-line"></i><i class="rot" data-h="rot" title="회전"></i></div>
         <div class="busy" id="busy" hidden><div class="spin"></div><span id="busyText">준비 중</span></div>
       </div>
       <p class="board-hint" id="hint">사진을 올리면 바로 누끼를 따서 테두리로 보여 드려요.</p>
@@ -202,25 +226,19 @@ button:focus-visible,.style-opt input:focus-visible + span,.seg input:focus-visi
           </div>
           <span class="err" id="nameErr" hidden></span>
           <div class="field">
+            <label for="headline">메인 문구</label>
+            <input type="text" id="headline" value="Happy Birthday" maxlength="24" autocomplete="off" spellcheck="false" placeholder="Happy Birthday">
+          </div>
+          <div class="field">
             <label for="msg">축하 문구 <span class="help" style="font-weight:500">· <span id="msgCount">19</span>/48자</span></label>
             <textarea id="msg" maxlength="48" rows="2">You are my sunshine</textarea>
           </div>
         </section>
         <section class="group">
-          <h3 id="styleLegend">스타일</h3>
-          <div class="styles" role="radiogroup" aria-labelledby="styleLegend">
-            <label class="style-opt"><input type="radio" name="style" id="st-stage" value="stage" checked><span><i><img data-thumb="thumbs/stage.jpg" alt=""></i><b>무대·청량</b></span></label>
-            <label class="style-opt"><input type="radio" name="style" id="st-cute" value="cute"><span><i><img data-thumb="thumbs/cute.jpg" alt=""></i><b>큐트·키치</b></span></label>
-            <label class="style-opt"><input type="radio" name="style" id="st-hip" value="hip"><span><i><img data-thumb="thumbs/hip.jpg" alt=""></i><b>힙·레트로</b></span></label>
-            <label class="style-opt"><input type="radio" name="style" id="st-mag" value="mag"><span><i><img data-thumb="thumbs/mag.jpg" alt=""></i><b>매거진·잡지</b></span></label>
-            <label class="style-opt"><input type="radio" name="style" id="st-pure" value="pure"><span><i><img data-thumb="thumbs/pure.jpg" alt=""></i><b>청순·청춘</b></span></label>
-          </div>
-        </section>
-        <section class="group">
           <h3>배치</h3>
-          <div class="range-row"><label for="pscale">인물 크기</label><input type="range" id="pscale" min="60" max="150" step="1" value="100"><output id="pscaleOut" for="pscale">100%</output></div>
-          <div class="range-row"><label for="tscale">제목 크기</label><input type="range" id="tscale" min="60" max="130" step="1" value="100"><output id="tscaleOut" for="tscale">100%</output></div>
-          <div class="layout-actions"><p class="help-line">배너에서 인물이나 제목을 끌어서 옮길 수 있어요.</p><button type="button" class="small-btn" id="resetLayout">배치 초기화</button></div>
+          <div class="range-row"><label for="pscale">인물 크기</label><input type="range" id="pscale" min="40" max="200" step="1" value="100"><output id="pscaleOut" for="pscale">100%</output></div>
+          <div class="range-row"><label for="tscale">제목 크기</label><input type="range" id="tscale" min="40" max="200" step="1" value="100"><output id="tscaleOut" for="tscale">100%</output></div>
+          <div class="layout-actions"><p class="help-line">배너에서 인물·제목을 눌러 옮기고, 모서리로 크기를, 아래 동그라미로 회전을 바꿔요.</p><button type="button" class="small-btn" id="resetLayout">배치 초기화</button></div>
         </section>
         <section class="group">
           <h3 id="cutLegend">누끼 방식</h3>
@@ -257,7 +275,7 @@ const pretendardReady = (async () => {
 })();
 
 /* ---------------- state ---------------- */
-const S = { src: null, srcId: 0, cut: null, cutKey: '', point: null, view: 'poster', blobUrl: null, blob: null, generated: false, busy: false, layout: null, preview: null, off: {}, out: null };
+const S = { sel: null, cap: null, live: false, src: null, srcId: 0, cut: null, cutKey: '', point: null, view: 'poster', blobUrl: null, blob: null, generated: false, busy: false, layout: null, preview: null, off: {}, out: null };
 
 /* ---------------- helpers ---------------- */
 function mk(w, h) { const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); return c; }
@@ -341,7 +359,7 @@ function gradientMap(img, stops, contrast = 1.2, grain = 0) {
 }
 let _noise = null;
 function noiseTile() { if (_noise) return _noise; const n = 256, c = mk(n, n), x = c.getContext('2d'), id = x.createImageData(n, n), d = id.data; for (let i = 0; i < d.length; i += 4) { const v = Math.random() * 255 | 0; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 60 + Math.random() * 120 | 0; } x.putImageData(id, 0, 0); return (_noise = c); }
-function grain(ctx, alpha, op = 'overlay') { ctx.save(); ctx.globalAlpha = alpha; ctx.globalCompositeOperation = op; ctx.fillStyle = ctx.createPattern(noiseTile(), 'repeat'); ctx.fillRect(0, 0, W, H); ctx.restore(); }
+function grain(ctx, alpha, op = 'overlay') { if (ctx.__cap) return; ctx.save(); ctx.globalAlpha = alpha; ctx.globalCompositeOperation = op; ctx.fillStyle = ctx.createPattern(noiseTile(), 'repeat'); ctx.fillRect(0, 0, W, H); ctx.restore(); }
 function sparkle(ctx, x, y, r, color, glow = 0) { ctx.save(); ctx.translate(x, y); ctx.beginPath(); const k = r * 0.14; ctx.moveTo(0, -r); ctx.quadraticCurveTo(k, -k, r, 0); ctx.quadraticCurveTo(k, k, 0, r); ctx.quadraticCurveTo(-k, k, -r, 0); ctx.quadraticCurveTo(-k, -k, 0, -r); ctx.fillStyle = color; if (glow) { ctx.shadowColor = color; ctx.shadowBlur = glow; } ctx.fill(); ctx.restore(); }
 function starPath(ctx, x, y, R, r, n = 5, rot = -Math.PI / 2) { ctx.beginPath(); for (let i = 0; i < n * 2; i++) { const a = rot + i * Math.PI / n, rad = i % 2 ? r : R; ctx.lineTo(x + Math.cos(a) * rad, y + Math.sin(a) * rad); } ctx.closePath(); }
 function heartPts(x, y, s) { const pts = []; const k = s / 34; for (let i = 0; i < 120; i++) { const t = i / 120 * Math.PI * 2; pts.push([x + 16 * Math.sin(t) ** 3 * k, y - (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * k - 2.5 * k]); } return pts; }
@@ -368,10 +386,15 @@ const rectHit = (f, x, y, w, h) => !!f && x < f.x + f.w && x + w > f.x && y < f.
 const circHit = (f, x, y, r) => rectHit(f, x - r, y - r, r * 2, r * 2);
 
 /* ---------------- user layout: offsets per style ---------------- */
-const DEF_OFF = { pdx: 0, pdy: 0, ps: 1, tdx: 0, tdy: 0, ts: 1 };
-const isDefault = (O) => !O.pdx && !O.pdy && O.ps === 1 && !O.tdx && !O.tdy && O.ts === 1;
-function titleBox(O, r) { const cx = r.x + r.w / 2, cy = r.y + r.h / 2; return { x: cx + O.tdx - r.w * O.ts / 2, y: cy + O.tdy - r.h * O.ts / 2, w: r.w * O.ts, h: r.h * O.ts }; }
-function titleXform(ctx, O, r) { const cx = r.x + r.w / 2, cy = r.y + r.h / 2; ctx.translate(cx + O.tdx, cy + O.tdy); ctx.scale(O.ts, O.ts); ctx.translate(-cx, -cy); }
+const DEF_OFF = { pdx: 0, pdy: 0, ps: 1, pr: 0, tdx: 0, tdy: 0, ts: 1, tr: 0 };
+const isDefault = (O) => !O.pdx && !O.pdy && O.ps === 1 && !O.pr && !O.tdx && !O.tdy && O.ts === 1 && !O.tr;
+function titleBox(O, r) { const cx = r.x + r.w / 2, cy = r.y + r.h / 2; return { x: cx + O.tdx - r.w * O.ts / 2, y: cy + O.tdy - r.h * O.ts / 2, w: r.w * O.ts, h: r.h * O.ts, r }; }
+// The user's transform for the title. While layers are being captured, the title's own layer stays untransformed.
+function titleXform(ctx, O, r) {
+  const cx = r.x + r.w / 2, cy = r.y + r.h / 2;
+  const f = (c) => { c.translate(cx + O.tdx, cy + O.tdy); if (O.tr) c.rotate(O.tr); c.scale(O.ts, O.ts); c.translate(-cx, -cy); };
+  if (ctx.__cap) ctx.__cap.begin('title', f); else f(ctx);
+}
 
 /* ---------------- placeholder (example silhouette) ---------------- */
 function placeholderCut() {
@@ -394,8 +417,13 @@ function readData() {
   const dv = $('date').value || '2026-11-23'; const [yy, mm, dd] = dv.split('-');
   const poss = name.endsWith('S') ? name + "'" : name + "'S";
   const title = name.toLowerCase().replace(/(^|[\s-])([a-z])/g, (a, b, c) => b + c.toUpperCase());
-  return { name, title, poss, msg: $('msg').value.trim(), style: document.querySelector('input[name=style]:checked').value, Y: yy, YY: yy.slice(-2), MM: mm, DD: dd, M: String(+mm), D: String(+dd) };
+  const head = ($('headline').value.trim().replace(/\s+/g, ' ') || 'Happy Birthday');
+  const core = head.replace(/^happy\s+/i, '') || head;
+  return { name, title, poss, head, hl: splitLines(head), core, msg: $('msg').value.trim(), style: document.querySelector('input[name=style]:checked').value, Y: yy, YY: yy.slice(-2), MM: mm, DD: dd, M: String(+mm), D: String(+dd) };
 }
+
+// Splits a phrase into at most two lines of similar length.
+function splitLines(str) { const w = str.trim().split(/\s+/); if (w.length < 2) return [str.trim()]; let best = null; for (let i = 1; i < w.length; i++) { const a = w.slice(0, i).join(' '), b = w.slice(i).join(' '), m = Math.max(a.length, b.length); if (!best || m < best.m) best = { m, l: [a, b] }; } return best.l; }
 
 /* ================= shared drawing parts ================= */
 const hasKo = (s) => /[가-힣]/.test(s);
@@ -416,9 +444,13 @@ function place(P, maxW, maxH, cx, bottom, { outline = 0, color = '#ffffff', proc
   const img = outline ? sticker(base, outline, color) : base, pad = outline ? img.pad : 0;
   let x = cx - base.width / 2 + O.pdx, y = bottom - base.height + O.pdy;
   const face = mapFace(cut, base.width / cut.canvas.width, x, y);
-  if (minFaceY && isDefault(O) && face.y < minFaceY) { const d = Math.min(maxShift, minFaceY - face.y); y += d; face.y += d; }
-  P.out.person = { x, y, w: base.width, h: base.height };
-  return { img, base, x, y, pad, face, draw(ctx) { ctx.drawImage(img, x - pad, y - pad); } };
+  let shift = 0; if (minFaceY && isDefault(O) && face.y < minFaceY) { shift = Math.min(maxShift, minFaceY - face.y); y += shift; face.y += shift; }
+  P.out.person = { x, y, w: base.width, h: base.height, cx, bottom, ps: O.ps, shift };
+  return { img, base, x, y, pad, face, draw(ctx) {
+    const pcx = x + base.width / 2, pcy = y + base.height / 2;
+    const f = (c) => { if (O.pr) { c.translate(pcx, pcy); c.rotate(O.pr); c.translate(-pcx, -pcy); } };
+    ctx.save(); if (ctx.__cap) ctx.__cap.begin('person', f); else f(ctx); ctx.drawImage(img, x - pad, y - pad); ctx.restore();
+  } };
 }
 function spotAway(R, face, r, x0, y0, x1, y1) { for (let t = 0; t < 40; t++) { const x = x0 + R() * (x1 - x0), y = y0 + R() * (y1 - y0); if (!circHit(face, x, y, r + 24)) return [x, y]; } return null; }
 function flare(ctx, x, y, r) {
@@ -499,10 +531,9 @@ function renderStage(ctx, P) {
   ctx.save(); ctx.globalAlpha = 0.8; ctx.drawImage(blurred(bc, 4), 0, 0, W, H); ctx.restore();
 
   // title layout
-  const N = P.D.name, ini = N[0], rest = N.slice(1) + ' DAY';
-  let s2 = 330; const w2 = () => { ctx.font = font(s2 * 1.3, "'Pinyon Script', serif"); const a = ctx.measureText(ini).width; ctx.font = font(s2, F.corm, 700); return a * 0.82 + spacedW(ctx, rest, s2 * 0.02); };
-  while (w2() > W * 0.88 && s2 > 120) s2 -= 6;
-  const yH = 470, y2 = yH + s2 * 0.98, yProj = y2 + 150;
+  const N = P.D.name, TL = P.D.hl.map(t => t.toUpperCase()), TSP = -0.02;
+  const ts = Math.min(...TL.map(t => fit(ctx, t, F.corm, 700, W * 0.86, 330, TSP, 100)));
+  const yH = 470, yLast = yH + (TL.length - 1) * ts * 0.92, yProj = yLast + 150;
   const tRect = { x: 80, y: 130, w: W - 160, h: yProj + 40 - 130 }; P.out.title = titleBox(O, tRect);
   const tb = P.out.title;
 
@@ -527,13 +558,10 @@ function renderStage(ctx, P) {
   ctx.save(); titleXform(ctx, O, tRect);
   const silver = (y0, y1) => { const sg = ctx.createLinearGradient(0, y0, 0, y1); sg.addColorStop(0, '#ffffff'); sg.addColorStop(0.42, '#eef2f7'); sg.addColorStop(0.55, '#b7c3d3'); sg.addColorStop(0.75, '#e9eef5'); sg.addColorStop(1, '#ffffff'); return sg; };
   ctx.shadowColor = 'rgba(15,45,95,0.45)'; ctx.shadowBlur = 26; ctx.shadowOffsetY = 8;
-  ctx.font = font(340, F.corm, 700); ctx.fillStyle = silver(yH - 250, yH); text(ctx, 'HAPPY', W / 2, yH, { align: 'center', sp: 340 * 0.03 });
-  ctx.font = font(s2 * 1.3, "'Pinyon Script', serif"); const iw = ctx.measureText(ini).width * 0.82; ctx.font = font(s2, F.corm, 700); const rw = spacedW(ctx, rest, s2 * 0.02);
-  const sx = W / 2 - (iw + rw) / 2; ctx.fillStyle = silver(y2 - s2 * 0.75, y2);
-  ctx.font = font(s2 * 1.3, "'Pinyon Script', serif"); ctx.fillText(ini, sx - iw * 0.05, y2 + s2 * 0.04);
-  ctx.font = font(s2, F.corm, 700); text(ctx, rest, sx + iw, y2, { sp: s2 * 0.02 });
+  ctx.font = font(ts, F.corm, 700);
+  TL.forEach((t, i) => { const y = yH + i * ts * 0.92; ctx.fillStyle = silver(y - ts * 0.72, y); text(ctx, t, W / 2, y, { align: 'center', sp: ts * TSP }); });
   ctx.shadowColor = 'rgba(15,45,95,0.55)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 3; ctx.fillStyle = '#ffffff';
-  const proj = `${P.D.Y} ${N} BIRTHDAY PROJECT`; fit(ctx, proj, F.corm, 700, W * 0.7, 66, 0.03); text(ctx, proj, W / 2, yProj, { align: 'center', sp: 2 });
+  const proj = `${P.D.Y} ${N} ${P.D.core.toUpperCase()} PROJECT`; fit(ctx, proj, F.corm, 700, W * 0.7, 66, 0.03); text(ctx, proj, W / 2, yProj, { align: 'center', sp: 2 });
   ctx.restore();
   grain(ctx, 0.05);
 }
@@ -608,7 +636,8 @@ function renderCute(ctx, P) {
     ctx.save(); ctx.translate(10, 14); ctx.lineJoin = 'round'; ctx.lineWidth = px * 0.2; ctx.strokeStyle = '#8fbdec'; text(ctx, t, 0, 0, { align: 'center', mode: 'stroke' }); ctx.restore();
     outlined(ctx, t, 0, 0, [{ w: px * 0.2, color: '#ffffff' }, { w: px * 0.05, color: '#d4488b' }], pg, { align: 'center' });
     ctx.globalAlpha = 0.55; ctx.lineWidth = px * 0.018; ctx.strokeStyle = '#ffffff'; ctx.translate(-4, -6); text(ctx, t, 0, 0, { align: 'center', mode: 'stroke' }); ctx.restore(); };
-  glossy('Happy', W * 0.48, yA, tpx, -0.07); glossy('Birthday', W * 0.5, yB, tpx * 1.02, -0.07);
+  const CL = P.D.hl, cpx = Math.min(...CL.map(t => fit(ctx, t, F.pacifico, 400, W * 0.8, tpx, 0, 90)));
+  if (CL.length > 1) { glossy(CL[0], W * 0.48, yA, cpx, -0.07); glossy(CL[1], W * 0.5, yB, cpx * 1.02, -0.07); } else glossy(CL[0], W * 0.5, (yA + yB) / 2 + 90, cpx * 1.05, -0.07);
   ctx.restore();
   grain(ctx, 0.05);
 }
@@ -624,11 +653,12 @@ function renderHip(ctx, P) {
   // headline on its own layer so it can be worn down
   const N = P.D.name, l1 = P.D.poss, num = `${P.D.MM}${P.D.DD}`;
   const s1 = fit(ctx, l1, F.anton, 400, (W - 160) * 0.9, 380, 0, 80); const b1 = 70 + s1 * 0.9;
-  let s2 = 380; ctx.font = font(s2, F.anton); while (ctx.measureText('BIRTHDAY').width > W * 0.6 && s2 > 120) { s2 -= 4; ctx.font = font(s2, F.anton); }
-  const b2 = b1 + s2 * 0.98, wB = ctx.measureText('BIRTHDAY').width;
+  const HW = P.D.core.toUpperCase();
+  let s2 = 380; ctx.font = font(s2, F.anton); while (ctx.measureText(HW).width > W * 0.6 && s2 > 120) { s2 -= 4; ctx.font = font(s2, F.anton); }
+  const b2 = b1 + s2 * 0.98, wB = ctx.measureText(HW).width;
   const tRect = { x: 40, y: 40, w: W - 80, h: b2 + 40 - 40 }; P.out.title = titleBox(O, tRect); const tb = P.out.title;
   const layer = mk(W, b2 + 80), lx = layer.getContext('2d'); const skew = (fn) => { lx.save(); lx.transform(1, 0, -0.16, 1, 0, 0); fn(); lx.restore(); };
-  skew(() => { lx.fillStyle = INK; lx.font = font(s1, F.anton); lx.fillText(l1, 80 + b1 * 0.16, b1); lx.fillStyle = BLUE; lx.font = font(s2, F.anton); lx.fillText('BIRTHDAY', 70 + b2 * 0.16, b2); });
+  skew(() => { lx.fillStyle = INK; lx.font = font(s1, F.anton); lx.fillText(l1, 80 + b1 * 0.16, b1); lx.fillStyle = BLUE; lx.font = font(s2, F.anton); lx.fillText(HW, 70 + b2 * 0.16, b2); });
   const ox = 70 + wB + 40, ow = W - 60 - ox, ocx = ox + ow / 2, ocy = b2 - s2 * 0.36;
   lx.save(); lx.lineWidth = 7; lx.strokeStyle = INK; lx.beginPath(); lx.ellipse(ocx, ocy, ow / 2, s2 * 0.48, -0.12, 0, 7); lx.stroke(); lx.restore();
   skew(() => { lx.fillStyle = INK; let n = s2 * 0.7; lx.font = font(n, F.anton); while (lx.measureText(num).width > ow * 0.78 && n > 60) { n -= 4; lx.font = font(n, F.anton); } lx.textAlign = 'center'; lx.fillText(num, ocx + ocy * 0.16, ocy + n * 0.36); });
@@ -652,7 +682,7 @@ function renderHip(ctx, P) {
   const first = P.D.name.split(' ').slice(-1)[0];
   const colY = Math.max(b2 + 180, 1050);
   if (clear(60, colY - 90, 640, 760)) {
-    ctx.save(); ctx.transform(1, 0, -0.14, 1, colY * 0.14, 0); ctx.fillStyle = INK; ['HAPPY', 'BIRTHDAY', `${first}!`].forEach((t, i) => { fit(ctx, t, F.archivo, 800, 560, 84); text(ctx, t, 70 + (i === 1 ? 40 : 0), colY + i * 92); }); ctx.restore();
+    ctx.save(); ctx.transform(1, 0, -0.14, 1, colY * 0.14, 0); ctx.fillStyle = INK; [...P.D.hl.map(t => t.toUpperCase()), `${first}!`].forEach((t, i) => { fit(ctx, t, F.archivo, 800, 560, 84); text(ctx, t, 70 + (i === 1 ? 40 : 0), colY + i * 92); }); ctx.restore();
     ctx.fillStyle = INK; ctx.fillRect(70, colY + 250, 560, 4);
     ctx.font = font(38, F.archivo, 700); const ml = wrap(ctx, (P.D.msg || 'Thank you for always being you.').toUpperCase(), 540, 5); ml.forEach((l, i) => text(ctx, l, 70, colY + 330 + i * 54));
   }
@@ -671,7 +701,7 @@ function renderMag(ctx, P) {
   // top rule
   ctx.fillStyle = INK; ctx.font = font(48, F.corm, 500); text(ctx, `VOL.${P.D.DD}`, 70, 110, { sp: 2 });
   ctx.fillStyle = BLUE; ctx.font = font(58, F.corm, 500); const dW = text(ctx, `${P.D.YY}.${P.D.MM}.${P.D.DD}.`, W - 70, 112, { align: 'right', sp: 1 });
-  ctx.fillStyle = INK; const mid = `${P.D.poss} BIRTHDAY SPECIAL`; fit(ctx, mid, F.corm, 600, W * 0.5, 44, 0.08); const mw = text(ctx, mid, W / 2, 108, { align: 'center', sp: 44 * 0.08 });
+  ctx.fillStyle = INK; const mid = `${P.D.poss} ${P.D.core.toUpperCase()} SPECIAL`; fit(ctx, mid, F.corm, 600, W * 0.5, 44, 0.08); const mw = text(ctx, mid, W / 2, 108, { align: 'center', sp: 44 * 0.08 });
   ctx.fillRect(250, 94, W / 2 - mw / 2 - 290, 2.5); ctx.fillRect(W / 2 + mw / 2 + 40, 94, W - 70 - dW - 40 - (W / 2 + mw / 2 + 40), 2.5);
 
   // masthead: condensed didone name
@@ -688,7 +718,7 @@ function renderMag(ctx, P) {
   // cover lines
   const cy = Math.max(mBottom + 220, 1000);
   if (clear(60, cy - 90, 440, 900)) {
-    ctx.fillStyle = INK; ['', 'BIRTHDAY', 'SPECIAL', 'ISSUE'].forEach((t, i) => { const s = i === 0 ? P.D.name.split(' ').slice(-1)[0] : t; fit(ctx, s, F.corm, 500, 420, 84, 0.02, 30, 'italic'); text(ctx, s, 70, cy + i * 88, { sp: 2 }); });
+    ctx.fillStyle = INK; ['', P.D.core.toUpperCase(), 'SPECIAL', 'ISSUE'].forEach((t, i) => { const s = i === 0 ? P.D.name.split(' ').slice(-1)[0] : t; fit(ctx, s, F.corm, 500, 420, 84, 0.02, 30, 'italic'); text(ctx, s, 70, cy + i * 88, { sp: 2 }); });
     sparkle(ctx, 150, cy + 440, 32, BLUE);
     ctx.font = font(60, F.corm, 500, 'italic'); ['Bright', 'Lovely', 'Unstoppable'].forEach((t, i) => text(ctx, t, 70, cy + 560 + i * 70));
   }
@@ -699,8 +729,9 @@ function renderMag(ctx, P) {
   }
   // script + date oval
   ctx.save(); ctx.shadowColor = 'rgba(255,255,255,0.95)'; ctx.shadowBlur = 36; ctx.fillStyle = BLUE;
-  ctx.font = font(500, "'Pinyon Script', serif"); text(ctx, 'Happy', W * 0.34, H - 690, { align: 'center' });
-  ctx.font = font(520, "'Pinyon Script', serif"); text(ctx, 'Birthday', W * 0.56, H - 260, { align: 'center' }); ctx.restore();
+  const ML = P.D.hl, PIN = "'Pinyon Script', serif";
+  if (ML.length > 1) { fit(ctx, ML[0], PIN, 400, W * 0.62, 500, 0, 120); text(ctx, ML[0], W * 0.34, H - 690, { align: 'center' }); }
+  fit(ctx, ML[ML.length - 1], PIN, 400, W * 0.84, 520, 0, 120); text(ctx, ML[ML.length - 1], W * 0.56, H - 260, { align: 'center' }); ctx.restore();
   ctx.save(); ctx.translate(W - 380, H - 1080); ctx.rotate(-0.08); ctx.beginPath(); ctx.ellipse(0, 0, 300, 110, 0, 0, 7); ctx.lineWidth = 5; ctx.strokeStyle = BLUE; ctx.stroke(); ctx.fillStyle = BLUE; ctx.font = font(96, F.corm, 500, 'italic'); ctx.textBaseline = 'middle'; text(ctx, `${P.D.YY}.${P.D.MM}.${P.D.DD}.`, 0, 6, { align: 'center' }); ctx.restore();
   sparkle(ctx, W * 0.6, H - 720, 40, BLUE);
   barcode(ctx, 60, H - 190, 360, 120, R);
@@ -746,7 +777,8 @@ function renderPure(ctx, P) {
   ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(W / 2, 220, 300, 90, 0, 0, 7); ctx.stroke();
   ctx.fillStyle = '#ffffff'; fit(ctx, P.D.title, F.corm, 500, 480, 84, 0, 30, 'italic'); ctx.textBaseline = 'middle'; text(ctx, P.D.title, W / 2, 222, { align: 'center' }); ctx.textBaseline = 'alphabetic';
   ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(380, 820); ctx.bezierCurveTo(200, 700, 330, 470, 620, 520); ctx.moveTo(W - 420, 1060); ctx.bezierCurveTo(W - 200, 1060, W - 220, 900, W - 420, 880); ctx.moveTo(500, 1010); ctx.bezierCurveTo(800, 1060, 1300, 1050, 1650, 990); ctx.stroke();
-  ctx.font = font(440, "'Pinyon Script', serif"); text(ctx, 'Happy', W * 0.52, yA, { align: 'center' }); text(ctx, 'Birthday', W * 0.52, yB, { align: 'center' });
+  const PL = P.D.hl; const ppx = Math.min(...PL.map(t => fit(ctx, t, "'Pinyon Script', serif", 400, W * 0.78, 440, 0, 120)));
+  ctx.font = font(ppx, "'Pinyon Script', serif"); if (PL.length > 1) { text(ctx, PL[0], W * 0.52, yA, { align: 'center' }); text(ctx, PL[1], W * 0.52, yB, { align: 'center' }); } else text(ctx, PL[0], W * 0.52, (yA + yB) / 2 + 60, { align: 'center' });
   sparkle(ctx, 470, 380, 34, '#ffffff', 12); sparkle(ctx, W - 330, 820, 30, '#ffffff', 12);
   ctx.font = font(92, F.corm, 500, 'italic'); text(ctx, `${P.D.YY}.${P.D.MM}.${P.D.DD}.`, W * 0.78, yDate, { align: 'center' });
   ctx.restore();
@@ -774,11 +806,11 @@ function buildPreview() { // cutout with a white glowing outline, sized for the 
   const st = sticker(small, 11, '#ffffff'); return { img: st, x: L.x + c.bbox.x * s - st.pad, y: L.y + c.bbox.y * s - st.pad };
 }
 function showView(v) {
-  S.view = v;
+  S.view = v; S.live = false; if (v !== 'poster') S.sel = null;
   for (const b of document.querySelectorAll('#tabs button')) b.setAttribute('aria-selected', String(b.dataset.view === v));
   $('posterImg').hidden = !(v === 'poster' && S.generated && S.blobUrl);
   $('stage').classList.toggle('pick', v === 'check' && mode() === 'click');
-  vctx.save(); vctx.clearRect(0, 0, W, H);
+  vctx.save(); vctx.setTransform(1, 0, 0, 1, 0, 0); vctx.clearRect(0, 0, W, H);
   if (v === 'poster') vctx.drawImage(posterCanvas, 0, 0);
   else if (v === 'check' && S.src) {
     vctx.fillStyle = '#2a2d34'; vctx.fillRect(0, 0, W, H);
@@ -794,7 +826,7 @@ function showView(v) {
   vctx.restore();
   const m = $('marker'); m.hidden = !(v === 'check' && S.point && mode() === 'click' && S.layout);
   if (!m.hidden) { m.style.left = ((S.layout.x + S.point.x * S.layout.w) / W * 100) + '%'; m.style.top = ((S.layout.y + S.point.y * S.layout.h) / H * 100) + '%'; }
-  updateChrome();
+  updateChrome(); refreshBox();
 }
 function updateChrome() {
   const chip = $('chip');
@@ -807,14 +839,14 @@ function updateChrome() {
   if (S.generated) st[2].className = 'done';
   $('hint').textContent = !S.src ? '사진을 올리면 바로 누끼를 따서 테두리로 보여 드려요.'
     : S.view === 'check' ? (mode() === 'click' ? '사진에서 잘라낼 인물을 누르세요. 다시 누르면 다시 잡아요.' : '흰 테두리 안쪽이 배너에 들어갈 부분이에요.')
-    : '인물이나 제목을 끌어서 옮길 수 있어요. 배너를 우클릭하거나 길게 눌러 저장하세요.';
+    : '인물이나 제목을 눌러 선택한 뒤 끌어서 옮기고, 모서리로 크기, 아래 동그라미로 회전을 바꿔요. 우클릭해서 저장하세요.';
   const ps = $('photoState'); if (S.src) { ps.textContent = S.cut ? '누끼 완료' : mode() === 'click' ? '인물을 눌러 지정해 주세요' : '누끼 준비 중'; ps.className = S.cut ? 'ok' : ''; }
   $('stage').classList.toggle('editable', S.view === 'poster' && S.generated);
 }
 async function exportPoster() {
   const blob = await new Promise(r => posterCanvas.toBlob(r, 'image/png'));
   if (!blob) return; if (S.blobUrl) URL.revokeObjectURL(S.blobUrl);
-  S.blob = blob; S.blobUrl = URL.createObjectURL(blob); $('posterImg').src = S.blobUrl;
+  S.blob = blob; S.blobUrl = URL.createObjectURL(blob); const im = $('posterImg'); im.src = S.blobUrl; try { await im.decode(); } catch {}
 }
 
 /* ---------------- MediaPipe ---------------- */
@@ -932,7 +964,7 @@ async function loadFile(file) {
   try {
     const url = URL.createObjectURL(file); const img = new Image(); img.src = url; await img.decode();
     const s = Math.min(1, 1800 / Math.max(img.naturalWidth, img.naturalHeight)); const c = mk(img.naturalWidth * s, img.naturalHeight * s); const cx = c.getContext('2d'); cx.imageSmoothingQuality = 'high'; cx.drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
-    S.off = {}; syncLayoutUI(); S.src = c; S.srcId = Date.now(); S.cut = null; S.cutKey = ''; S.point = null; S.generated = false; S.preview = null; S.layout = null;
+    S.off = {}; S.cap = null; S.sel = null; syncLayoutUI(); S.src = c; S.srcId = Date.now(); S.cut = null; S.cutKey = ''; S.point = null; S.generated = false; S.preview = null; S.layout = null;
     const th = $('thumb'); th.innerHTML = ''; const tc = mk(92, 92); cover(tc.getContext('2d'), c, 0, 0, 92, 92); th.appendChild(tc);
     $('photoName').textContent = file.name || '붙여넣은 이미지'; $('pick').textContent = '사진 바꾸기';
     $('drop').hidden = true; $('after').hidden = true; $('tab-check').disabled = false; $('tab-poster').disabled = true;
@@ -947,7 +979,7 @@ async function generate() {
   if (!S.cut) { await runSegment(); if (!S.cut) return; }
   try {
     busy('배너 그리는 중…'); await tick();
-    await drawPoster(); await exportPoster();
+    await drawPoster(); S.cap = captureLayers(); await exportPoster();
     S.generated = true; $('tab-poster').disabled = false; $('after').hidden = false;
     busy(''); showView('poster'); status('배너를 만들었어요. 스타일이나 문구를 바꾸면 바로 다시 그려집니다.', 'ok');
   } catch (e) { console.error(e); busy(''); status('배너를 그리는 중에 문제가 생겼어요. (' + (e && e.message || e) + ')', 'bad'); }
@@ -957,7 +989,7 @@ function scheduleRedraw(delay = 350) {
   clearTimeout(redrawT);
   redrawT = setTimeout(async () => {
     if (redrawing || S.busy) return scheduleRedraw(); redrawing = true;
-    try { if (!S.src) { await drawPoster(); showView('poster'); } else if (S.generated) { await drawPoster(); await exportPoster(); if (S.view === 'poster') showView('poster'); $('hot').hidden = true; if ($('status').textContent.startsWith('배치를 바꿨어요')) status('배치를 바꿨어요.', 'ok'); } }
+    try { if (!S.src) { await drawPoster(); showView('poster'); } else if (S.generated) { await drawPoster(); S.cap = captureLayers(); await exportPoster(); if (drag) return; if (S.view === 'poster') showView('poster'); if ($('status').textContent.startsWith('배치를 바꿨어요')) status('배치를 바꿨어요.', 'ok'); } }
     finally { redrawing = false; }
   }, delay);
 }
@@ -987,7 +1019,8 @@ document.querySelectorAll('input[name=cut]').forEach(r => r.addEventListener('ch
   if (mode() === 'click') { showView('check'); status(S.point ? '지정한 위치로 다시 잡을게요.' : '사진에서 잘라낼 인물을 한 번 눌러 주세요.'); if (S.point) runSegment(); }
   else { showView('check'); runSegment(); }
 }));
-document.querySelectorAll('input[name=style]').forEach(r => r.addEventListener('change', () => { syncLayoutUI(); scheduleRedraw(); }));
+document.querySelectorAll('input[name=style]').forEach(r => r.addEventListener('change', () => { S.sel = null; syncLayoutUI(); refreshBox(); scheduleRedraw(); }));
+$('headline').addEventListener('input', () => scheduleRedraw());
 $('name').addEventListener('input', () => { const el = $('name'); const v = el.value.replace(/[^A-Za-z .'-]/g, ''); if (v !== el.value) el.value = v; if (validName()) scheduleRedraw(); });
 $('date').addEventListener('change', scheduleRedraw);
 $('msg').addEventListener('input', () => { $('msgCount').textContent = $('msg').value.length; scheduleRedraw(); });
@@ -996,44 +1029,142 @@ $('copy').addEventListener('click', async () => {
   catch { status('이 화면에서는 이미지 복사가 막혀 있어요. 배너를 우클릭(모바일은 길게 누르기)해서 저장해 주세요.', 'bad'); }
 });
 
-/* ---------------- layout editing: sliders + drag on the banner ---------------- */
+/* ---------------- layout editing: sliders + direct manipulation on the banner ---------------- */
 const styleNow = () => document.querySelector('input[name=style]:checked').value;
 function curOff(st = styleNow()) { return { ...DEF_OFF, ...(S.off[st] || {}) }; }
 function setOff(patch) { const st = styleNow(); S.off[st] = { ...curOff(st), ...patch }; }
 function syncLayoutUI() { const o = curOff(); $('pscale').value = Math.round(o.ps * 100); $('pscaleOut').textContent = Math.round(o.ps * 100) + '%'; $('tscale').value = Math.round(o.ts * 100); $('tscaleOut').textContent = Math.round(o.ts * 100) + '%'; }
-$('pscale').addEventListener('input', e => { setOff({ ps: e.target.value / 100 }); $('pscaleOut').textContent = e.target.value + '%'; scheduleRedraw(250); });
-$('tscale').addEventListener('input', e => { setOff({ ts: e.target.value / 100 }); $('tscaleOut').textContent = e.target.value + '%'; scheduleRedraw(250); });
-$('resetLayout').addEventListener('click', () => { delete S.off[styleNow()]; syncLayoutUI(); scheduleRedraw(0); status('배치를 처음 상태로 되돌렸어요.', 'ok'); });
 
-const LABEL = { person: '인물 · 끌어서 이동', title: '제목 · 끌어서 이동' };
-let drag = null;
-const inR = (r, p) => r && p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h;
-function stagePt(e) { const r = stage.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H }; }
-function targetAt(pt) { if (S.view !== 'poster' || !S.generated || !S.out || S.busy) return null; if (inR(S.out.title, pt)) return 'title'; if (inR(S.out.person, pt)) return 'person'; return null; }
-function showHot(which, dx = 0, dy = 0) {
-  const h = $('hot'); if (!which) { h.hidden = true; return; }
-  const r = S.out[which]; h.hidden = false; $('hotLabel').textContent = LABEL[which];
-  const x0 = Math.max(0, r.x + dx), y0 = Math.max(0, r.y + dy), x1 = Math.min(W, r.x + r.w + dx), y1 = Math.min(H, r.y + r.h + dy);
-  Object.assign(h.style, { left: x0 / W * 100 + '%', top: y0 / H * 100 + '%', width: Math.max(0, x1 - x0) / W * 100 + '%', height: Math.max(0, y1 - y0) / H * 100 + '%' });
+/* Layer capture: the poster is rendered once more into separate layers (background segments, title, person),
+   so that moving, scaling or rotating can be shown live by recompositing bitmaps. */
+const CAP_SCALE = 0.5, DRAW_OPS = new Set(['fill', 'stroke', 'fillRect', 'strokeRect', 'clearRect', 'fillText', 'strokeText', 'drawImage', 'putImageData']);
+let capPool = null;
+function resetCtx(x) { if (x.reset) x.reset(); else { x.setTransform(1, 0, 0, 1, 0, 0); Object.assign(x, { globalAlpha: 1, globalCompositeOperation: 'source-over', shadowBlur: 0, shadowColor: 'rgba(0,0,0,0)', shadowOffsetX: 0, shadowOffsetY: 0, lineWidth: 1, lineCap: 'butt', lineJoin: 'miter', textAlign: 'start', textBaseline: 'alphabetic', fillStyle: '#000', strokeStyle: '#000' }); x.setLineDash([]); if ('filter' in x) x.filter = 'none'; } x.clearRect(0, 0, x.canvas.width, x.canvas.height); x.setTransform(CAP_SCALE, 0, 0, CAP_SCALE, 0, 0); }
+function captureLayers() {
+  const D = readData(); if (!S.cut) return null;
+  if (!capPool) capPool = Array.from({ length: 6 }, () => mk(W * CAP_SCALE, H * CAP_SCALE));
+  const ctxs = capPool.map(c => { const x = c.getContext('2d'); resetCtx(x); return x; });
+  const EL = { title: 4, person: 5 }, order = [{ i: 0, key: null }], seen = new Set();
+  let cur = 0, seg = 0, depth = 0, active = null;
+  const cap = { begin(key, f) { const ei = EL[key]; ctxs.forEach((x, k) => { if (k !== ei) f(x); }); cur = ei; active = { depth }; if (!seen.has(key)) { seen.add(key); order.push({ i: ei, key }); } } };
+  const nextSeg = () => { if (seg < 3) { seg++; order.push({ i: seg, key: null }); } cur = seg; };
+  const base = ctxs[0];
+  const proxy = new Proxy({}, {
+    get(_, k) {
+      if (k === '__cap') return cap;
+      const v = base[k]; if (typeof v !== 'function') return v;
+      if (k === 'save') return () => { depth++; ctxs.forEach(x => x.save()); };
+      if (k === 'restore') return () => { depth--; ctxs.forEach(x => x.restore()); if (active && depth < active.depth) { active = null; nextSeg(); } };
+      if (DRAW_OPS.has(k) || k.startsWith('create') || k.startsWith('get') || k.startsWith('is') || k === 'measureText') return (...a) => ctxs[cur][k](...a);
+      return (...a) => { let r; for (const x of ctxs) r = x[k](...a); return r; };
+    },
+    set(_, k, v) { const sv = (k === 'shadowBlur' || k === 'shadowOffsetX' || k === 'shadowOffsetY') ? v * CAP_SCALE : v; for (const x of ctxs) x[k] = sv; return true; },
+  });
+  const off = curOff(D.style), out = {};
+  RENDER[D.style](proxy, { D, cut: S.cut, rand: mulberry(hash(D.name + D.style)), off, out });
+  // tight bounds of the (untransformed) title layer
+  let tbox = out.title.r;
+  { const c = capPool[4], id = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let x0 = c.width, y0 = c.height, x1 = -1, y1 = -1;
+    for (let y = 0; y < c.height; y += 2) for (let x = 0; x < c.width; x += 2) if (id[(y * c.width + x) * 4 + 3] > 60) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    if (x1 > x0) { const k = 1 / CAP_SCALE, pad = 14; tbox = { x: x0 * k - pad, y: y0 * k - pad, w: (x1 - x0) * k + pad * 2, h: (y1 - y0) * k + pad * 2 }; } }
+  return { style: D.style, off, out, tbox, layers: order.map(o => ({ canvas: capPool[o.i], key: o.key })) };
 }
+function capFresh() { return S.cap && S.cap.style === styleNow(); }
+function ensureCap() { if (!capFresh()) S.cap = captureLayers(); return S.cap; }
+
+const R2D = 180 / Math.PI;
+function personCenter(O, P0) { const k = O.ps / P0.ps; return { x: P0.cx + O.pdx, y: P0.bottom - P0.h * k / 2 + O.pdy + (isDefault(O) ? P0.shift : 0), k }; }
+function titleMat(O, r) { const cx = r.x + r.w / 2, cy = r.y + r.h / 2; return new DOMMatrix().translate(cx + O.tdx, cy + O.tdy).rotate(O.tr * R2D).scale(O.ts).translate(-cx, -cy); }
+function matFor(key, O) {
+  const C = S.cap;
+  if (key === 'title') return titleMat(O, C.out.title.r);
+  const P0 = C.out.person, c = personCenter(O, P0);
+  return new DOMMatrix().translate(c.x, c.y).rotate(O.pr * R2D).scale(c.k).translate(-(P0.x + P0.w / 2), -(P0.y + P0.h / 2));
+}
+// Box of an element in poster pixels: center, size, rotation.
+function geom(key, O = curOff()) {
+  const C = S.cap; if (!C || !C.out[key]) return null;
+  if (key === 'title') { const b = C.tbox, p = titleMat(O, C.out.title.r).transformPoint(new DOMPoint(b.x + b.w / 2, b.y + b.h / 2)); return { cx: p.x, cy: p.y, w: b.w * O.ts, h: b.h * O.ts, rot: O.tr }; }
+  const P0 = C.out.person, c = personCenter(O, P0); return { cx: c.x, cy: c.y, w: P0.w * c.k, h: P0.h * c.k, rot: O.pr };
+}
+function composite() {
+  const C = S.cap; if (!C) return; const O = curOff(C.style);
+  vctx.setTransform(1, 0, 0, 1, 0, 0); vctx.clearRect(0, 0, W, H); vctx.imageSmoothingQuality = 'high';
+  for (const L of C.layers) { if (L.key) vctx.setTransform(matFor(L.key, O)); else vctx.setTransform(1, 0, 0, 1, 0, 0); vctx.drawImage(L.canvas, 0, 0, W, H); }
+  vctx.setTransform(1, 0, 0, 1, 0, 0);
+}
+let liveRaf = 0;
+function liveFrame() { if (liveRaf) return; liveRaf = requestAnimationFrame(() => { liveRaf = 0; if (!S.cap) return; S.live = true; $('posterImg').hidden = true; composite(); refreshBox(); }); }
+
+const LABEL = { person: '인물', title: '제목' };
+let drag = null, hoverKey = null;
+const editable = () => S.view === 'poster' && S.generated && !S.busy;
+function stagePt(e) { const r = stage.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H }; }
+function hitTest(pt) {
+  if (!editable() || !S.cap) return null;
+  const keys = S.sel ? [S.sel, ...['title', 'person'].filter(k => k !== S.sel)] : ['title', 'person'];
+  for (const k of keys) { const g = geom(k); if (!g) continue; const dx = pt.x - g.cx, dy = pt.y - g.cy, c = Math.cos(-g.rot), s = Math.sin(-g.rot); const qx = dx * c - dy * s, qy = dx * s + dy * c; if (Math.abs(qx) <= g.w / 2 + 12 && Math.abs(qy) <= g.h / 2 + 12) return k; }
+  return null;
+}
+function refreshBox() {
+  const h = $('hot'), key = S.sel || hoverKey; const g = key && editable() && geom(key);
+  if (!g) { h.hidden = true; return; }
+  const sx = stage.getBoundingClientRect().width / W;
+  h.hidden = false; h.classList.toggle('hover', !S.sel); $('hotLabel').textContent = LABEL[key];
+  Object.assign(h.style, { width: g.w * sx + 'px', height: g.h * sx + 'px', transform: `translate(${(g.cx - g.w / 2) * sx}px, ${(g.cy - g.h / 2) * sx}px) rotate(${g.rot}rad)` });
+}
+function select(key) { S.sel = key; hoverKey = null; refreshBox(); }
+// Before the first edit, freeze the automatic face shift into the offsets so nothing jumps.
+function beginEdit() { const O = curOff(); if (isDefault(O) && S.out && S.out.person && S.out.person.shift) setOff({ pdy: S.out.person.shift }); }
+function setPersonScale(ps, O0, P0, C0) { ps = clamp(ps, 0.4, 2); setOff({ ps, pdy: C0.y - P0.bottom + P0.h * (ps / P0.ps) / 2, pdx: O0.pdx }); }
+function commitEdit(msg = '배치를 바꿨어요. 다시 그리는 중…') { syncLayoutUI(); status(msg); scheduleRedraw(0); }
+
 stage.addEventListener('pointerdown', e => {
-  const pt = stagePt(e), which = targetAt(pt); if (!which) return;
-  e.preventDefault(); drag = { which, sx: pt.x, sy: pt.y, dx: 0, dy: 0, id: e.pointerId }; stage.setPointerCapture(e.pointerId); stage.classList.add('dragging');
+  if (!editable()) return;
+  const pt = stagePt(e), h = e.target.dataset && e.target.dataset.h;
+  let key, kind;
+  if (h && S.sel) { key = S.sel; kind = h === 'rot' ? 'rot' : 'scale'; }
+  else { key = hitTest(pt); kind = 'move'; }
+  if (!key) { if (S.sel) select(null); return; }
+  e.preventDefault(); if (!ensureCap()) return; beginEdit(); select(key);
+  const O0 = curOff(), g0 = geom(key, O0);
+  drag = { key, kind, p0: pt, O0, C0: { x: g0.cx, y: g0.cy }, moved: false, id: e.pointerId };
+  stage.setPointerCapture(e.pointerId); stage.classList.add('dragging');
 });
 stage.addEventListener('pointermove', e => {
   const pt = stagePt(e);
-  if (drag) { drag.dx = pt.x - drag.sx; drag.dy = pt.y - drag.sy; showHot(drag.which, drag.dx, drag.dy); return; }
-  const which = targetAt(pt); stage.classList.toggle('can-move', !!which); showHot(which);
+  if (!drag) { if (S.sel && e.target.dataset && e.target.dataset.h) return; const k = hitTest(pt); stage.classList.toggle('can-move', !!k); if (!S.sel && k !== hoverKey) { hoverKey = k; refreshBox(); } return; }
+  const d = drag, O0 = d.O0, C0 = d.C0, dx = pt.x - d.p0.x, dy = pt.y - d.p0.y;
+  if (!d.moved && Math.hypot(dx, dy) < 4) return; d.moved = true;
+  const P0 = S.cap.out.person, tr = S.cap.out.title.r, tc = { x: tr.x + tr.w / 2, y: tr.y + tr.h / 2 };
+  if (d.kind === 'move') { if (d.key === 'person') setOff({ pdx: O0.pdx + dx, pdy: O0.pdy + dy }); else setOff({ tdx: O0.tdx + dx, tdy: O0.tdy + dy }); }
+  else if (d.kind === 'scale') {
+    let k = Math.hypot(pt.x - C0.x, pt.y - C0.y) / Math.max(1, Math.hypot(d.p0.x - C0.x, d.p0.y - C0.y));
+    if (d.key === 'person') setPersonScale(O0.ps * k, O0, P0, C0);
+    else { const ts = clamp(O0.ts * k, 0.4, 2); k = ts / O0.ts; setOff({ ts, tdx: C0.x + k * (tc.x + O0.tdx - C0.x) - tc.x, tdy: C0.y + k * (tc.y + O0.tdy - C0.y) - tc.y }); }
+  } else {
+    let a = Math.atan2(pt.y - C0.y, pt.x - C0.x) - Math.atan2(d.p0.y - C0.y, d.p0.x - C0.x);
+    const base = d.key === 'person' ? O0.pr : O0.tr; let r = base + a; const st = Math.PI / 12;
+    if (e.shiftKey) r = Math.round(r / st) * st; else if (Math.abs(r - Math.round(r / (Math.PI / 2)) * Math.PI / 2) < 0.04) r = Math.round(r / (Math.PI / 2)) * Math.PI / 2;
+    a = r - base;
+    if (d.key === 'person') setOff({ pr: r });
+    else { const vx = tc.x + O0.tdx - C0.x, vy = tc.y + O0.tdy - C0.y, c = Math.cos(a), s = Math.sin(a); setOff({ tr: r, tdx: C0.x + vx * c - vy * s - tc.x, tdy: C0.y + vx * s + vy * c - tc.y }); }
+  }
+  liveFrame();
 });
-function endDrag(e) {
+function endDrag() {
   if (!drag) return; const d = drag; drag = null; stage.classList.remove('dragging'); try { stage.releasePointerCapture(d.id); } catch {}
-  if (Math.hypot(d.dx, d.dy) < 8) { showHot(targetAt(stagePt(e))); return; }
-  const o = curOff(); if (d.which === 'person') setOff({ pdx: o.pdx + d.dx, pdy: o.pdy + d.dy }); else setOff({ tdx: o.tdx + d.dx, tdy: o.tdy + d.dy });
-  status('배치를 바꿨어요. 다시 그리는 중…'); scheduleRedraw(0);
+  if (d.moved) commitEdit(); else refreshBox();
 }
 stage.addEventListener('pointerup', endDrag);
 stage.addEventListener('pointercancel', endDrag);
-stage.addEventListener('pointerleave', () => { if (!drag) { showHot(null); stage.classList.remove('can-move'); } });
+stage.addEventListener('pointerleave', () => { if (!drag && hoverKey) { hoverKey = null; stage.classList.remove('can-move'); refreshBox(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.sel) select(null); });
+window.addEventListener('resize', refreshBox);
+
+$('pscale').addEventListener('input', e => { if (!editable() || !ensureCap()) { setOff({ ps: e.target.value / 100 }); } else { beginEdit(); const O0 = curOff(), g = geom('person', O0); setPersonScale(e.target.value / 100, O0, S.cap.out.person, { x: g.cx, y: g.cy }); liveFrame(); } $('pscaleOut').textContent = e.target.value + '%'; scheduleRedraw(400); });
+$('tscale').addEventListener('input', e => { if (editable() && ensureCap()) beginEdit(); setOff({ ts: e.target.value / 100 }); $('tscaleOut').textContent = e.target.value + '%'; if (S.cap && editable()) liveFrame(); scheduleRedraw(400); });
+$('resetLayout').addEventListener('click', () => { delete S.off[styleNow()]; syncLayoutUI(); if (editable() && S.cap) liveFrame(); scheduleRedraw(0); status('배치를 처음 상태로 되돌렸어요.', 'ok'); });
 
 document.querySelectorAll('img[data-thumb]').forEach(async (im) => { try { const b = await fetch(im.dataset.thumb).then(r => { if (!r.ok) throw 0; return r.blob(); }); im.src = URL.createObjectURL(b); } catch { im.src = im.dataset.thumb; } });
 drawPoster().then(() => showView('poster'));
