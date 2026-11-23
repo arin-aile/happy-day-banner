@@ -580,7 +580,7 @@ function renderCute(ctx, P) {
   ctx.save(); ctx.setLineDash([2, 22]); ctx.lineCap = 'round'; ctx.lineWidth = 12; ctx.strokeStyle = 'rgba(140,190,240,0.8)'; ctx.beginPath(); ctx.moveTo(W * 0.62, H - 60); ctx.bezierCurveTo(W * 0.8, H - 200, W * 0.92, H - 120, W, H - 260); ctx.stroke(); ctx.beginPath(); ctx.moveTo(W - 200, H * 0.62); ctx.bezierCurveTo(W - 80, H * 0.66, W - 60, H * 0.7, W, H * 0.69); ctx.stroke(); ctx.restore();
 
   // title layout
-  const tpx = 330, yA = 520, yB = 870;
+  const tpx = 330, yA = 500, yB = 950;
   const tRect = { x: 60, y: 160, w: W - 120, h: yB + 120 - 160 }; P.out.title = titleBox(O, tRect); const tb = P.out.title;
   const pl = place(P, W * 0.94, H * 0.68, W * 0.5, H + 30, { outline: 22, minFaceY: tb.y + tb.h - 40 });
   ctx.save(); ctx.shadowColor = 'rgba(120,160,220,0.45)'; ctx.shadowBlur = 40; ctx.shadowOffsetY = 12; pl.draw(ctx); ctx.restore();
@@ -748,7 +748,7 @@ function renderPure(ctx, P) {
   ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.drawImage(blurred(bk, 3), 0, 0, W, H); ctx.restore();
   const sun = ctx.createRadialGradient(W * 0.85, 0, 0, W * 0.85, 0, W * 0.9); sun.addColorStop(0, 'rgba(255,255,230,0.55)'); sun.addColorStop(1, 'rgba(255,255,230,0)'); ctx.fillStyle = sun; ctx.fillRect(0, 0, W, H);
 
-  const yA = 640, yB = 990, yDate = 1150;
+  const yA = 600, yB = 1080, yDate = 1240;
   const tRect = { x: 150, y: 110, w: W - 300, h: yDate + 50 - 110 }; P.out.title = titleBox(O, tRect); const tb = P.out.title;
   const pl = place(P, W * 0.96, H * 0.74, W * 0.52, H + 30, { fade: true, minFaceY: tb.y + tb.h - 140 });
   const pc = pl.base.getContext('2d'); pc.globalCompositeOperation = 'source-atop'; const wg = pc.createLinearGradient(0, 0, pl.base.width, 0); wg.addColorStop(0, 'rgba(255,250,230,0.1)'); wg.addColorStop(1, 'rgba(255,255,240,0.22)'); pc.fillStyle = wg; pc.fillRect(0, 0, pl.base.width, pl.base.height);
@@ -776,10 +776,10 @@ function renderPure(ctx, P) {
   ctx.save(); titleXform(ctx, O, tRect); ctx.shadowColor = 'rgba(40,60,30,0.35)'; ctx.shadowBlur = 20;
   ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(W / 2, 220, 300, 90, 0, 0, 7); ctx.stroke();
   ctx.fillStyle = '#ffffff'; fit(ctx, P.D.title, F.corm, 500, 480, 84, 0, 30, 'italic'); ctx.textBaseline = 'middle'; text(ctx, P.D.title, W / 2, 222, { align: 'center' }); ctx.textBaseline = 'alphabetic';
-  ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(380, 820); ctx.bezierCurveTo(200, 700, 330, 470, 620, 520); ctx.moveTo(W - 420, 1060); ctx.bezierCurveTo(W - 200, 1060, W - 220, 900, W - 420, 880); ctx.moveTo(500, 1010); ctx.bezierCurveTo(800, 1060, 1300, 1050, 1650, 990); ctx.stroke();
+  ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(380, yA + 180); ctx.bezierCurveTo(200, yA + 60, 330, yA - 170, 620, yA - 120); ctx.moveTo(W - 420, yB + 70); ctx.bezierCurveTo(W - 200, yB + 70, W - 220, yB - 90, W - 420, yB - 110); ctx.moveTo(500, yB + 20); ctx.bezierCurveTo(800, yB + 70, 1300, yB + 60, 1650, yB); ctx.stroke();
   const PL = P.D.hl; const ppx = Math.min(...PL.map(t => fit(ctx, t, "'Pinyon Script', serif", 400, W * 0.78, 440, 0, 120)));
   ctx.font = font(ppx, "'Pinyon Script', serif"); if (PL.length > 1) { text(ctx, PL[0], W * 0.52, yA, { align: 'center' }); text(ctx, PL[1], W * 0.52, yB, { align: 'center' }); } else text(ctx, PL[0], W * 0.52, (yA + yB) / 2 + 60, { align: 'center' });
-  sparkle(ctx, 470, 380, 34, '#ffffff', 12); sparkle(ctx, W - 330, 820, 30, '#ffffff', 12);
+  sparkle(ctx, 470, 380, 34, '#ffffff', 12); sparkle(ctx, W - 330, yA + 180, 30, '#ffffff', 12);
   ctx.font = font(92, F.corm, 500, 'italic'); text(ctx, `${P.D.YY}.${P.D.MM}.${P.D.DD}.`, W * 0.78, yDate, { align: 'center' });
   ctx.restore();
   grain(ctx, 0.06);
