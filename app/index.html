@@ -1028,9 +1028,17 @@ $('headline').addEventListener('input', () => scheduleRedraw());
 $('name').addEventListener('input', () => { const el = $('name'); const v = el.value.replace(/[^A-Za-z .'-]/g, ''); if (v !== el.value) el.value = v; if (validName()) scheduleRedraw(); });
 $('date').addEventListener('change', scheduleRedraw);
 $('msg').addEventListener('input', () => { $('msgCount').textContent = $('msg').value.length; scheduleRedraw(); });
-$('download').addEventListener('click', () => {
-  if (!S.blobUrl) return; const D = readData(); const a = document.createElement('a');
-  a.href = S.blobUrl; a.download = `happyday_${D.name.replace(/[^A-Za-z0-9]+/g, '_')}_${D.style}.png`; document.body.appendChild(a); a.click(); a.remove();
+// Inside the Claude artifact viewer, files go through its `downloads` capability; elsewhere (GitHub Pages) a plain link works.
+const dlCap = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null);
+$('download').addEventListener('click', async () => {
+  if (!S.blob) return; const D = readData(); const filename = `happyday_${D.name.replace(/[^A-Za-z0-9]+/g, '_')}_${D.style}.png`;
+  const dl = await dlCap;
+  if (dl) {
+    try { await dl.save({ filename, data: S.blob }); status('배너 이미지를 저장했어요.', 'ok'); }
+    catch (e) { status(e && e.code === 'declined' ? '저장을 취소했어요.' : '이 화면에서는 다운로드가 막혀 있어요. 배너를 우클릭(모바일은 길게 누르기)해서 저장해 주세요.', e && e.code === 'declined' ? '' : 'bad'); }
+    return;
+  }
+  const a = document.createElement('a'); a.href = S.blobUrl; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
   status('다운로드를 시작했어요. 받아지지 않으면 배너를 우클릭(모바일은 길게 누르기)해서 저장해 주세요.', 'ok');
 });
 $('copy').addEventListener('click', async () => {
